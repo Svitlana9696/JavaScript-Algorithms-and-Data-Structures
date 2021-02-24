@@ -1,0 +1,59 @@
+function checkCashRegister(price, cash, cid) {
+  let changeMoney=(cash-price)*100;
+  const currency=[1, 5, 10, 25, 100, 500, 1000, 2000, 10000];
+  const coins=["PENNY", "NICKEL", "DIME", "QUARTER", "ONE", "FIVE", "TEN", "TWENTY", "ONE HUNDRED"];
+  let sumOfMoney=sum(cid);
+  let arrOfChange=[];
+ let cashInDrawer = cid;
+
+ console.log(cashInDrawer);
+  let result={
+    status:"",
+    change:[],
+  }
+  
+  if(changeMoney>sumOfMoney){
+    result.status="INSUFFICIENT_FUNDS";
+    result.change=[];
+  }
+  else if(changeMoney==sumOfMoney){
+    result.status="CLOSED";
+    result.change=cid;
+  }
+  else{
+     result.status="OPEN";
+     result.change=arrOfChange;
+     
+     for(let i=currency.length-1; i>=0; i--){
+        let amountOfMoney=Math.trunc(changeMoney/currency[i])*currency[i];
+        let currentCid=cashInDrawer[i][1]*100
+        let amountOfCoins=0;
+          while(amountOfMoney>=currency[i] && currentCid>=currency[i] && amountOfMoney>0){
+              currentCid = currentCid - currency[i];
+              amountOfMoney-=currency[i];
+              amountOfCoins++;
+            }
+          if(amountOfCoins>0){
+            result.change.push([coins[i], (amountOfCoins*currency[i]/100)])
+            changeMoney =  changeMoney - amountOfCoins*currency[i];
+          }
+    }
+    if(sum(arrOfChange)<changeMoney){
+      result.status="INSUFFICIENT_FUNDS";
+    result.change=[];
+    }
+    
+}
+console.log(result)
+return result;
+}
+
+function sum(arr){
+  let sum=0
+  for(let i=0; i<arr.length; i++){
+    sum+=arr[i][1];
+  }
+  return sum.toFixed(2)*100;
+}
+
+checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
