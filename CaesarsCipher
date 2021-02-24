@@ -1,0 +1,14 @@
+function rot13(str) {
+ let decoded='';
+ for (let i=0; i<str.length; i++){
+   if(str.codePointAt(i)>=65&&str.codePointAt(i)<=90){
+     decoded+=String.fromCodePoint((str.codePointAt(i)+13-65)%26+65);
+   }
+   else {
+     decoded+=str[i];
+   }}
+  console.log(decoded)
+  return decoded;
+}
+
+rot13("SERR PBQR PNZC");
